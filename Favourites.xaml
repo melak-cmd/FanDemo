@@ -1,0 +1,544 @@
+﻿<Canvas x:Class="FanDemo.Favourites"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:FanDemo"
+    >
+
+  <Rectangle Name="modal" Fill="Black" Opacity="0" Visibility="Collapsed" Width="4000" Height="4000" Canvas.Left="-900" Canvas.Top="-200"/>
+  <Border Name="border" CornerRadius="10" Canvas.Top="0" Canvas.Left="0">
+    <Border.Background>
+      <SolidColorBrush x:Name="backgroundBrush" Color="Transparent"/>
+    </Border.Background>
+    <Grid Name="grid" Width="210" Height="230">
+      <Grid.Resources>
+        <Storyboard x:Key="expandPanel">
+          <ColorAnimation Storyboard.TargetProperty="(SolidColorBrush.Color)" Storyboard.TargetName="backgroundBrush" To="#ccffffff" BeginTime="0:00:00.250" Duration="0:00:00.050"/>
+          <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="border" To="100" Duration="0:00:00.300" AccelerationRatio="0.2" DecelerationRatio="0.7"/>
+          <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" Storyboard.TargetName="border" To="100" Duration="0:00:00.300" AccelerationRatio="0.2" DecelerationRatio="0.7"/>
+          <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="modal" To="0.4" Duration="0:00:00.300" AccelerationRatio="0.2" DecelerationRatio="0.7"/>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="modal">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="detailSlider">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="title">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="close">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="textDetail">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="line">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="counter">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="circle">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <!--<ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="someFavourites">
+            <SplineThicknessKeyFrame KeySpline="0.5,0.5,0.5,0.5" Value="10,30,0,0" KeyTime="00:00:00.300"/>
+          </ThicknessAnimationUsingKeyFrames>-->
+        </Storyboard>
+        <Storyboard x:Key="collapsePanel">
+          <ColorAnimation Storyboard.TargetProperty="(SolidColorBrush.Color)" Storyboard.TargetName="backgroundBrush" To="Transparent" Duration="0:00:00.010"/>
+          <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="border" To="0" Duration="0:00:00.300" AccelerationRatio="0.2" DecelerationRatio="0.7"/>
+          <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" Storyboard.TargetName="border" To="0" Duration="0:00:00.300" AccelerationRatio="0.2" DecelerationRatio="0.7"/>
+          <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="modal" To="0" Duration="0:00:00.300" AccelerationRatio="0.2" DecelerationRatio="0.7"/>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="modal">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="detailSlider">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="title">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="close">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="textDetail">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="line">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="00:00:00.000"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="counter">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="circle">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="00:00:00.300"/>
+          </ObjectAnimationUsingKeyFrames>
+          <!--<ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="someFavourites">
+            <SplineThicknessKeyFrame KeySpline="0.5,0.5,0.5,0.5" Value="10,00,0,0" KeyTime="00:00:00.300"/>
+          </ThicknessAnimationUsingKeyFrames>-->
+        </Storyboard>
+
+        <ControlTemplate x:Key="DetailSliderTemplate" TargetType="{x:Type Slider}">
+          <Border Background="{TemplateBinding Background}" x:Name="Border" SnapsToDevicePixels="True" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid x:Name="Grid">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <TickBar Visibility="Collapsed" Height="4" Grid.Row="0" x:Name="TopTick" Fill="{TemplateBinding Foreground}" Placement="Top"/>
+              <TickBar Visibility="Collapsed" Height="4" Grid.Row="2" x:Name="BottomTick" Fill="{TemplateBinding Foreground}" Placement="Bottom"/>
+              <Border VerticalAlignment="Center" Margin="5,0,5,0" Height="7" Grid.Row="1" x:Name="Border1" BorderBrush="{x:Null}" BorderThickness="0,0,0,0" CornerRadius="1,1,1,1">
+                <Border.Background>
+                  <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="sc#1, 0.300597519, 0.300597519, 0.300597519" Offset="0.1"/>
+                    <GradientStop Color="sc#1, 0.505463064, 0.505463064, 0.505463064" Offset="0.9"/>
+                  </LinearGradientBrush>
+                </Border.Background>
+                <Canvas Margin="-6,-1,-6,-1" x:Name="Canvas">
+                  <Rectangle Visibility="Hidden" Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" StrokeThickness="1" Height="4" x:Name="PART_SelectionRange"/>
+                </Canvas>
+              </Border>
+              <Track Grid.Row="1" x:Name="PART_Track">
+                <Track.DecreaseRepeatButton>
+                  <RepeatButton x:Name="RepeatButton1" Command="Slider.DecreaseLarge">
+                    <RepeatButton.Style>
+                      <Style TargetType="{x:Type RepeatButton}">
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Template">
+                          <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type RepeatButton}">
+                              <Border Background="#00FFFFFF" x:Name="Border"/>
+                            </ControlTemplate>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </RepeatButton.Style>
+                  </RepeatButton>
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                  <RepeatButton x:Name="RepeatButton" Command="Slider.IncreaseLarge">
+                    <RepeatButton.Style>
+                      <Style TargetType="{x:Type RepeatButton}">
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Template">
+                          <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type RepeatButton}">
+                              <Border Background="#00FFFFFF" x:Name="Border"/>
+                            </ControlTemplate>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </RepeatButton.Style>
+                  </RepeatButton>
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                  <Thumb Height="18" x:Name="Thumb">
+                    <Thumb.Style>
+                      <Style TargetType="{x:Type Thumb}">
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="Height" Value="22"/>
+                        <Setter Property="Width" Value="11"/>
+                        <Setter Property="Foreground" Value="#FF008000"/>
+                        <Setter Property="Template">
+                          <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                              <Grid x:Name="Canvas" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True">
+                                <Grid.RenderTransform>
+                                  <TransformGroup>
+                                    <TranslateTransform X="0" Y="0"/>
+                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    <SkewTransform AngleX="0" AngleY="0"/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform X="0" Y="0"/>
+                                    <TranslateTransform X="0" Y="0"/>
+                                  </TransformGroup>
+                                </Grid.RenderTransform>
+                                <Grid.ColumnDefinitions>
+                                  <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                  <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Rectangle Stroke="{x:Null}" Fill="sc#1, 0.121340163, 0.121340163, 0.121340163" RadiusX="3.91645297639889" RadiusY="3.91645297639889" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Width="Auto" Height="Auto" x:Name="Rectangle"/>
+                              </Grid>
+                              <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True"/>
+                                <Trigger Property="Foreground" Value="#FFFFA500"/>
+                                <Trigger Property="IsDragging" Value="True"/>
+                                <Trigger Property="IsEnabled" Value="False"/>
+                              </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </Thumb.Style>
+                  </Thumb>
+                </Track.Thumb>
+              </Track>
+            </Grid>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="TickPlacement" Value="TopLeft">
+              <Setter Property="Visibility" Value="Visible" TargetName="TopTick"/>
+              <Setter Property="Style" TargetName="Thumb">
+                <Setter.Value>
+                  <Style TargetType="{x:Type Thumb}">
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="Height" Value="22"/>
+                    <Setter Property="Width" Value="11"/>
+                    <Setter Property="Foreground" Value="#FF008000"/>
+                    <Setter Property="Template">
+                      <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                          <Canvas x:Name="Canvas" SnapsToDevicePixels="True">
+                            <Canvas.RenderTransform>
+                              <TransformGroup>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform X="5.5" Y="11"/>
+                              </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Path x:Name="Background" Data="M5,-8A1.5,1.5,0,0,0,3.5,-9.5L-3.5,-9.5A1.5,1.5,0,0,0,-5,-8L-5,5.5 0,10.5 5,5.5z">
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
+                                  <GradientStop Color="#FFD4D3E1" Offset="0.1"/>
+                                  <GradientStop Color="#FFFFFFFF" Offset="0.15"/>
+                                  <GradientStop Color="#FFFFFFFF" Offset="0.2"/>
+                                  <GradientStop Color="#FFD4D3E1" Offset="0.3"/>
+                                  <GradientStop Color="#FFC6C6D2" Offset="1"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                            <Path StrokeThickness="1" x:Name="TopAccent" Data="M4.5,-6L4.5,-9 -4.5,-9 -4.5,-6z">
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                  <GradientStop Color="#FF46CA44" Offset="1"/>
+                                  <GradientStop Color="#FF1B9B1A" Offset="0"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                            <Path StrokeThickness="1" x:Name="BottomAccent" Data="M4.5,4L0,8.5 -4.5,4 -4.5,5 0,10 4.5,5z">
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                  <GradientStop Color="#FF70D66F" Offset="1"/>
+                                  <GradientStop Color="#FF46CA44" Offset="0.2"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                            <Path StrokeThickness="1" x:Name="OuterBorder" Data="M5,-8A1.5,1.5,0,0,0,3.5,-9.5L-3.5,-9.5A1.5,1.5,0,0,0,-5,-8L-5,5.5 0,10.5 5,5.5z">
+                              <Path.Stroke>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                  <GradientStop Color="#FFBECBD3" Offset="1"/>
+                                  <GradientStop Color="#FF72838D" Offset="0"/>
+                                </LinearGradientBrush>
+                              </Path.Stroke>
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                  <GradientStop Color="#40FFFFFF" Offset="1"/>
+                                  <GradientStop Color="#00FFFFFF" Offset="0.7"/>
+                                  <GradientStop Color="#00000000" Offset="0.3"/>
+                                  <GradientStop Color="#40000000" Offset="0"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                          </Canvas>
+                          <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                              <Setter Property="Fill" TargetName="TopAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFAC055" Offset="1"/>
+                                    <GradientStop Color="#FFC7902A" Offset="0"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                              <Setter Property="Fill" TargetName="BottomAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFBCE7C" Offset="1"/>
+                                    <GradientStop Color="#FFF7B335" Offset="0.2"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                            </Trigger>
+                            <Trigger Property="Foreground" Value="#FFFFA500">
+                              <Setter Property="Fill" TargetName="TopAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFAC055" Offset="1"/>
+                                    <GradientStop Color="#FFC7902A" Offset="0"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                              <Setter Property="Fill" TargetName="BottomAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFBCE7C" Offset="1"/>
+                                    <GradientStop Color="#FFF7B335" Offset="0.2"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDragging" Value="True">
+                              <Setter Property="Fill" TargetName="TopAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF46A638" Offset="1"/>
+                                    <GradientStop Color="#FF1B770E" Offset="0"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                              <Setter Property="Fill" TargetName="BottomAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF46A638" Offset="1"/>
+                                    <GradientStop Color="#FF1B770E" Offset="0"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                              <Setter Property="Fill" Value="#FFF5F4EA" TargetName="Background"/>
+                              <Setter Property="Stroke" Value="#FFD6D4C6" TargetName="OuterBorder"/>
+                              <Setter Property="Fill" Value="#FFBBB9AD" TargetName="TopAccent"/>
+                              <Setter Property="Fill" Value="#00FFFFFF" TargetName="BottomAccent"/>
+                            </Trigger>
+                          </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+            <Trigger Property="TickPlacement" Value="BottomRight">
+              <Setter Property="Visibility" Value="Visible" TargetName="BottomTick"/>
+              <Setter Property="Style" TargetName="Thumb">
+                <Setter.Value>
+                  <Style TargetType="{x:Type Thumb}">
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="Height" Value="22"/>
+                    <Setter Property="Width" Value="11"/>
+                    <Setter Property="Foreground" Value="#FF008000"/>
+                    <Setter Property="Template">
+                      <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                          <Canvas x:Name="Canvas" SnapsToDevicePixels="True">
+                            <Canvas.RenderTransform>
+                              <TranslateTransform X="5.5" Y="11"/>
+                            </Canvas.RenderTransform>
+                            <Path x:Name="Background" Data="M5,-8A1.5,1.5,0,0,0,3.5,-9.5L-3.5,-9.5A1.5,1.5,0,0,0,-5,-8L-5,5.5 0,10.5 5,5.5z">
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                  <GradientStop Color="#FFD4D3E1" Offset="0.1"/>
+                                  <GradientStop Color="#FFFFFFFF" Offset="0.15"/>
+                                  <GradientStop Color="#FFFFFFFF" Offset="0.2"/>
+                                  <GradientStop Color="#FFD4D3E1" Offset="0.3"/>
+                                  <GradientStop Color="#FFC6C6D2" Offset="1"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                            <Path StrokeThickness="1" x:Name="TopAccent" Data="M4.5,-6L4.5,-9 -4.5,-9 -4.5,-6z">
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                  <GradientStop Color="#FF70D66F" Offset="0"/>
+                                  <GradientStop Color="#FF46CA44" Offset="1"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                            <Path StrokeThickness="1" x:Name="BottomAccent" Data="M4.5,4L0,8.5 -4.5,4 -4.5,5 0,10 4.5,5z">
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                  <GradientStop Color="#FF46CA44" Offset="0"/>
+                                  <GradientStop Color="#FF1B9B1A" Offset="0.8"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                            <Path StrokeThickness="1" x:Name="OuterBorder" Data="M5,-8A1.5,1.5,0,0,0,3.5,-9.5L-3.5,-9.5A1.5,1.5,0,0,0,-5,-8L-5,5.5 0,10.5 5,5.5z">
+                              <Path.Stroke>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                  <GradientStop Color="#FFBECBD3" Offset="0"/>
+                                  <GradientStop Color="#FF72838D" Offset="1"/>
+                                </LinearGradientBrush>
+                              </Path.Stroke>
+                              <Path.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                  <GradientStop Color="#40FFFFFF" Offset="0"/>
+                                  <GradientStop Color="#00FFFFFF" Offset="0.3"/>
+                                  <GradientStop Color="#00000000" Offset="0.7"/>
+                                  <GradientStop Color="#40000000" Offset="1"/>
+                                </LinearGradientBrush>
+                              </Path.Fill>
+                            </Path>
+                          </Canvas>
+                          <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                              <Setter Property="Fill" TargetName="TopAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFBCE7C" Offset="0"/>
+                                    <GradientStop Color="#FFF7B335" Offset="1"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                              <Setter Property="Fill" TargetName="BottomAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFAC055" Offset="0"/>
+                                    <GradientStop Color="#FFC7902A" Offset="0.8"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                            </Trigger>
+                            <Trigger Property="Foreground" Value="#FFFFA500">
+                              <Setter Property="Fill" TargetName="TopAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFBCE7C" Offset="0"/>
+                                    <GradientStop Color="#FFF7B335" Offset="1"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                              <Setter Property="Fill" TargetName="BottomAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFFAC055" Offset="0"/>
+                                    <GradientStop Color="#FFC7902A" Offset="0.8"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDragging" Value="True">
+                              <Setter Property="Fill" TargetName="TopAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF70BA66" Offset="0"/>
+                                    <GradientStop Color="#FF229412" Offset="1"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                              <Setter Property="Fill" TargetName="BottomAccent">
+                                <Setter.Value>
+                                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF46A638" Offset="0"/>
+                                    <GradientStop Color="#FF1B770E" Offset="0.8"/>
+                                  </LinearGradientBrush>
+                                </Setter.Value>
+                              </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                              <Setter Property="Fill" Value="#FFF5F4EA" TargetName="Background"/>
+                              <Setter Property="Stroke" Value="#FFD6D4C6" TargetName="OuterBorder"/>
+                              <Setter Property="Fill" Value="#FFD2D0C6" TargetName="TopAccent"/>
+                              <Setter Property="Fill" Value="#00FFFFFF" TargetName="BottomAccent"/>
+                            </Trigger>
+                          </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+            <Trigger Property="TickPlacement" Value="Both">
+              <Setter Property="Visibility" Value="Visible" TargetName="TopTick"/>
+              <Setter Property="Visibility" Value="Visible" TargetName="BottomTick"/>
+            </Trigger>
+            <Trigger Property="IsSelectionRangeEnabled" Value="True">
+              <Setter Property="Visibility" Value="Visible" TargetName="PART_SelectionRange"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+              <Setter Property="Foreground" Value="#FFFFA500" TargetName="Thumb"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
+      </Grid.Resources>
+      <TextBlock Name="title" FontFamily="Verdana" Text="FAVOURITES" Margin="15,6,0,0" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
+      <TextBlock Name="close" FontFamily="Verdana" Text="Close X" Margin="0,8,15,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed"/>
+      <Path Name="line" Stroke="#FF777777" Fill="#FF777777" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,28,15,0" Width="Auto" Height="1" Stretch="Fill" Data="M150,191 L432.17725,191" Visibility="Collapsed"/>
+
+      <ItemsControl 
+      Name="someFavourites" 
+      DataContext="{Binding Source={StaticResource Things}}" 
+      ItemsSource="{Binding}" Margin="10,30,0,0">
+
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <local:FanPanel Cursor="Hand" MouseLeftButtonUp="OnClick" Loaded="OnLoaded" AnimationCompleted="OnCompleted" AnimationMilliseconds="300"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ContentPresenter}">
+            <Setter Property="ContentTemplate">
+              <Setter.Value>
+                <DataTemplate>
+                  <Image Source="{Binding Converter={StaticResource ImagePathConverter}, XPath=@Image}" Width="{Binding ElementName=detailSlider,Path=Value}" Margin="5" MouseLeftButtonUp="OnItemClick"/>
+                </DataTemplate>
+              </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Panel.ZIndex" Value="2000" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+
+      </ItemsControl>
+
+      <Ellipse Name="circle" IsHitTestVisible="False" StrokeThickness="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="110,110,0,0" Width="30" Height="30">
+        <Ellipse.Stroke>
+          <RadialGradientBrush GradientOrigin="0.589115916071568,0.577053527165287">
+            <RadialGradientBrush.RelativeTransform>
+              <TransformGroup>
+                <TranslateTransform X="-0.5" Y="-0.5"/>
+                <ScaleTransform ScaleX="0.82556272050123947" ScaleY="0.80981913390908944"/>
+                <SkewTransform AngleX="0" AngleY="0"/>
+                <RotateTransform Angle="187.52396204165893"/>
+                <TranslateTransform X="0.5" Y="0.5"/>
+                <TranslateTransform X="0.018276172945636035" Y="0.045461290644075079"/>
+              </TransformGroup>
+            </RadialGradientBrush.RelativeTransform>
+            <GradientStop Color="sc#0, 0, 0, 0" Offset="0"/>
+            <GradientStop Color="sc#0, 0, 0, 0" Offset="1"/>
+            <GradientStop Color="#FF000000" Offset="0.33333333333333331"/>
+          </RadialGradientBrush>
+        </Ellipse.Stroke>
+        <Ellipse.Fill>
+          <RadialGradientBrush GradientOrigin="0.5,0.5">
+            <RadialGradientBrush.RelativeTransform>
+              <TransformGroup>
+                <TranslateTransform X="-0.5" Y="-0.5"/>
+                <ScaleTransform ScaleX="0.93523868269655364" ScaleY="0.92440917691854241"/>
+                <SkewTransform AngleX="0" AngleY="0"/>
+                <RotateTransform Angle="180.3788122151181"/>
+                <TranslateTransform X="0.5" Y="0.5"/>
+                <TranslateTransform X="-0.0002125221863040613" Y="0.0020583301790243168"/>
+              </TransformGroup>
+            </RadialGradientBrush.RelativeTransform>
+            <GradientStop Color="#FFFFFFFF" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="0.84615384615384615"/>
+            <GradientStop Color="sc#0, 1, 1, 1" Offset="1"/>
+            <GradientStop Color="sc#0, 1, 1, 1" Offset="0.85256410256410253"/>
+          </RadialGradientBrush>
+        </Ellipse.Fill>
+      </Ellipse>
+      <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,118,0,0" Width="12">
+        <TextBlock Name="counter" IsHitTestVisible="False" HorizontalAlignment="Center"/>
+      </Grid>
+      <TextBlock Name="text" IsHitTestVisible="False" Text="FAVOURITES" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,140,0,0">
+        <TextBlock.BitmapEffect>
+          <OuterGlowBitmapEffect GlowColor="Black" GlowSize="2.5" />
+        </TextBlock.BitmapEffect>
+      </TextBlock>
+      <TextBlock Name="textDetail" Margin="0,0,160,16" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="DETAIL LEVEL: 100%" Visibility="Collapsed"/>
+      <Slider Name="detailSlider" Margin="0,0,50,10" Template="{DynamicResource DetailSliderTemplate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Minimum="50" Maximum="150" Value="150" Visibility="Collapsed"/>
+    </Grid>
+  </Border>
+</Canvas>
