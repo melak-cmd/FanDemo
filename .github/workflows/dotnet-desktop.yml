@@ -1,25 +1,24 @@
-name: Build
+name: Build WPF App
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch
 
 jobs:
   build:
-    runs-on: windows-latest  # Use windows-latest for Windows environment
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup .NET
+    - name: Set up .NET Framework
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '4.8.x'  # Use the latest supported version for .NET 4.8 projects
+        dotnet-version: 4.8.x  # Replace with the desired version
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Build WPF App
+      run: msbuild FanDemo.sln /p:Configuration=Release  # Update with your solution path
 
-    - name: Build application
-      run: dotnet build --configuration Release
-
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build
+    # You can add more steps here, such as running tests or publishing artifacts
