@@ -1,3 +1,13 @@
+/*
+ * FanPanel Class
+ * 
+ * This class is a custom WPF (Windows Presentation Foundation) panel that arranges its child elements in a fan-like manner
+ * and provides animations and interaction based on mouse events. It inherits from the System.Windows.Controls.Panel class.
+ * 
+ * Author: [Your Name]
+ * Date: [Date]
+ */
+
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,18 +19,21 @@ namespace FanDemo
 {
     public partial class FanPanel : System.Windows.Controls.Panel
     {
+        // Constructor
         public FanPanel()
         {
-            this.Background = Brushes.Red;                    // Good for debugging
-            this.Background = Brushes.Transparent;            // Make sure we get mouse events
+            // Set up initial properties and event handlers
+            this.Background = Brushes.Transparent; // Make sure we get mouse events
             this.MouseEnter += new MouseEventHandler(FanPanel_MouseEnter);
             this.MouseLeave += new MouseEventHandler(FanPanel_MouseLeave);
         }
 
+        // Private Fields
         private Size ourSize;
         private bool foundNewChildren = false;
         private double scaleFactor = 1;
 
+        // Custom Routed Events
         public static readonly RoutedEvent RefreshEvent = EventManager.RegisterRoutedEvent("Refresh", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FanPanel));
         public event RoutedEventHandler Refresh
         {
@@ -35,61 +48,66 @@ namespace FanDemo
             remove { RemoveHandler(AnimationCompletedEvent, value); }
         }
 
+        // Dependency Property: IsWrapPanel
         public bool IsWrapPanel
         {
             get { return (bool)GetValue(IsWrapPanelProperty); }
             set { SetValue(IsWrapPanelProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsWrapPanel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsWrapPanelProperty =
             DependencyProperty.Register("IsWrapPanel", typeof(bool), typeof(FanPanel), new UIPropertyMetadata(false, IsWrapPanelChanged));
 
-        public static void IsWrapPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void IsWrapPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            // Called when the IsWrapPanel property changes, triggers an arrange invalidation
             System.Diagnostics.Debug.WriteLine("Wrap Panel Changed");
             FanPanel me = (FanPanel)d;
             me.InvalidateArrange();
         }
 
+        // Dependency Property: AnimationMilliseconds
         public int AnimationMilliseconds
         {
             get { return (int)GetValue(AnimationMillisecondsProperty); }
             set { SetValue(AnimationMillisecondsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for AnimationMilliseconds.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationMillisecondsProperty =
             DependencyProperty.Register("AnimationMilliseconds", typeof(int), typeof(FanPanel), new UIPropertyMetadata(1250));
 
+        // MeasureOverride: Measures the desired size of the panel's children
         protected override Size MeasureOverride(Size availableSize)
         {
-            // Allow children as much room as they want - then scale them
+            // Measure children with infinite space and set a fallback size
             Size size = new Size(Double.PositiveInfinity, Double.PositiveInfinity);
             foreach (UIElement child in Children)
             {
                 child.Measure(size);
             }
 
-            // EID calls us with infinity, but framework doesn't like us to return infinity
+            // Handle infinity case (EID calls)
             if (double.IsInfinity(availableSize.Height) || double.IsInfinity(availableSize.Width))
                 return new Size(600, 600);
             else
                 return availableSize;
         }
 
+        // ArrangeOverride: Arranges the panel's children in a fan-like layout
         protected override Size ArrangeOverride(Size finalSize)
         {
+            // Raise the Refresh event
             RaiseEvent(new RoutedEventArgs(FanPanel.RefreshEvent, null));
             if (this.Children == null || this.Children.Count == 0)
                 return finalSize;
 
+            // Initialization
             ourSize = finalSize;
             foundNewChildren = false;
 
             foreach (UIElement child in this.Children)
             {
-                // If this is the first time we've seen this child, add our transforms
+                // Apply transforms if not done before
                 if (child.RenderTransform as TransformGroup == null)
                 {
                     foundNewChildren = true;
@@ -101,20 +119,22 @@ namespace FanDemo
                     group.Children.Add(new RotateTransform());
                 }
 
-                // Don't allow our children any clicks in icon form
+                // Set hit test visibility and arrange children
                 child.IsHitTestVisible = IsWrapPanel;
                 child.Arrange(new Rect(0, 0, child.DesiredSize.Width, child.DesiredSize.Height));
 
-                // Scale the children so they fit in our size
+                // Calculate scaling factor
                 double sf = (Math.Min(ourSize.Width, ourSize.Height) * 0.4) / Math.Max(child.DesiredSize.Width, child.DesiredSize.Height);
                 scaleFactor = Math.Min(scaleFactor, sf);
             }
 
+            // Perform animations
             AnimateAll();
 
             return finalSize;
         }
 
+        // MouseEnter Event Handler
         void FanPanel_MouseEnter(object sender, MouseEventArgs e)
         {
             if (!IsWrapPanel)
@@ -124,6 +144,7 @@ namespace FanDemo
             }
         }
 
+        // MouseLeave Event Handler
         void FanPanel_MouseLeave(object sender, MouseEventArgs e)
         {
             if (!IsWrapPanel)
@@ -133,6 +154,7 @@ namespace FanDemo
             }
         }
 
+        // Animates all children
         private void AnimateAll()
         {
             System.Diagnostics.Debug.WriteLine("AnimateAll()");
@@ -140,7 +162,7 @@ namespace FanDemo
             {
                 if (!this.IsMouseOver)
                 {
-                    // Rotate all the children into a stack
+                    // Rotate children into a stack
                     double r = 0;
                     int sign = +1;
                     foreach (UIElement child in this.Children)
@@ -149,7 +171,7 @@ namespace FanDemo
                             child.SetValue(Panel.ZIndexProperty, 0);
 
                         AnimateTo(child, r, 0, 0, scaleFactor);
-                        r += sign * 15;         // +-15 degree intervals
+                        r += sign * 15; // +-15 degree intervals
                         if (Math.Abs(r) > 90)
                         {
                             r = 0;
@@ -159,7 +181,7 @@ namespace FanDemo
                 }
                 else
                 {
-                    // On mouse over explode out the children and don't rotate them
+                    // On mouse over, explode out the children without rotation
                     Random rand = new Random();
                     foreach (UIElement child in this.Children)
                     {
@@ -172,11 +194,11 @@ namespace FanDemo
             }
             else
             {
-                // Pretend to be a wrap panel
+                // Simulate a wrap panel layout
                 double maxHeight = 0, x = 0, y = 0;
                 foreach (UIElement child in this.Children)
                 {
-                    if (child.DesiredSize.Height > maxHeight)               // Row height
+                    if (child.DesiredSize.Height > maxHeight) // Row height
                         maxHeight = child.DesiredSize.Height;
                     if (x + child.DesiredSize.Width > this.ourSize.Width)
                     {
@@ -195,6 +217,7 @@ namespace FanDemo
             }
         }
 
+        // Animates an individual child's properties
         private void AnimateTo(UIElement child, double r, double x, double y, double s)
         {
             TransformGroup group = (TransformGroup)child.RenderTransform;
@@ -209,6 +232,7 @@ namespace FanDemo
             scale.BeginAnimation(ScaleTransform.ScaleYProperty, MakeAnimation(s));
         }
 
+        // Creates a DoubleAnimation with specified target value and optional completed event
         private DoubleAnimation MakeAnimation(double to)
         {
             return MakeAnimation(to, null);
@@ -224,6 +248,7 @@ namespace FanDemo
             return anim;
         }
 
+        // Animation Completed Event Handler
         void anim_Completed(object sender, EventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(FanPanel.AnimationCompletedEvent, e));
