@@ -19,6 +19,9 @@ namespace FanDemo
 {
     public partial class FanPanel : System.Windows.Controls.Panel
     {
+        private static readonly IFanPanelLayoutStrategy FanLayoutStrategy = new FanPanelFanLayoutStrategy();
+        private static readonly IFanPanelLayoutStrategy WrapLayoutStrategy = new FanPanelWrapLayoutStrategy();
+
         // Constructor
         public FanPanel()
         {
@@ -158,62 +161,25 @@ namespace FanDemo
         private void AnimateAll()
         {
             System.Diagnostics.Debug.WriteLine("AnimateAll()");
-            if (!IsWrapPanel)
+            var childSizes = new Size[Children.Count];
+            for (int i = 0; i < Children.Count; i++)
             {
-                if (!this.IsMouseOver)
-                {
-                    // Rotate children into a stack
-                    double r = 0;
-                    int sign = +1;
-                    foreach (UIElement child in this.Children)
-                    {
-                        if (foundNewChildren)
-                            child.SetValue(Panel.ZIndexProperty, 0);
-
-                        AnimateTo(child, r, 0, 0, scaleFactor);
-                        r += sign * 15; // +-15 degree intervals
-                        if (Math.Abs(r) > 90)
-                        {
-                            r = 0;
-                            sign = -sign;
-                        }
-                    }
-                }
-                else
-                {
-                    // On mouse over, explode out the children without rotation
-                    Random rand = new Random();
-                    foreach (UIElement child in this.Children)
-                    {
-                        child.SetValue(Panel.ZIndexProperty, rand.Next(this.Children.Count));
-                        double x = (rand.Next(16) - 8) * ourSize.Width / 32;
-                        double y = (rand.Next(16) - 8) * ourSize.Height / 32;
-                        AnimateTo(child, 0, x, y, scaleFactor);
-                    }
-                }
+                childSizes[i] = Children[i].DesiredSize;
             }
-            else
+
+            var strategy = IsWrapPanel ? WrapLayoutStrategy : FanLayoutStrategy;
+            var layouts = strategy.Calculate(childSizes, ourSize, scaleFactor, IsMouseOver, foundNewChildren);
+
+            for (int i = 0; i < Children.Count; i++)
             {
-                // Simulate a wrap panel layout
-                double maxHeight = 0, x = 0, y = 0;
-                foreach (UIElement child in this.Children)
-                {
-                    if (child.DesiredSize.Height > maxHeight) // Row height
-                        maxHeight = child.DesiredSize.Height;
-                    if (x + child.DesiredSize.Width > this.ourSize.Width)
-                    {
-                        x = 0;
-                        y += maxHeight;
-                    }
+                UIElement child = Children[i];
+                FanPanelChildLayout layout = layouts[i];
+                if (layout.ZIndex.HasValue)
+                    child.SetValue(Panel.ZIndexProperty, layout.ZIndex.Value);
+                if (layout.Visibility.HasValue)
+                    child.Visibility = layout.Visibility.Value;
 
-                    if (y > this.ourSize.Height - maxHeight)
-                        child.Visibility = Visibility.Hidden;
-                    else
-                        child.Visibility = Visibility.Visible;
-
-                    AnimateTo(child, 0, x, y, 1);
-                    x += child.DesiredSize.Width;
-                }
+                AnimateTo(child, layout.Rotation, layout.X, layout.Y, layout.Scale);
             }
         }
 
