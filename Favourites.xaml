@@ -462,10 +462,9 @@
       <TextBlock Name="close" FontFamily="Verdana" Text="Close X" Margin="0,8,15,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed"/>
       <Path Name="line" Stroke="#FF777777" Fill="#FF777777" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,28,15,0" Width="Auto" Height="1" Stretch="Fill" Data="M150,191 L432.17725,191" Visibility="Collapsed"/>
 
-      <ItemsControl 
+      <ItemsControl
       Name="someFavourites" 
-      DataContext="{Binding Source={StaticResource Things}}" 
-      ItemsSource="{Binding}" Margin="10,30,0,0">
+      Margin="10,58,0,0">
 
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
@@ -473,15 +472,14 @@
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
 
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Image Source="{Binding ImageUrl, Converter={StaticResource ImagePathConverter}}" Width="{Binding ElementName=detailSlider,Path=Value}" Margin="5" MouseLeftButtonUp="OnItemClick" ToolTip="{Binding DateLabel}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+
         <ItemsControl.ItemContainerStyle>
           <Style TargetType="{x:Type ContentPresenter}">
-            <Setter Property="ContentTemplate">
-              <Setter.Value>
-                <DataTemplate>
-                  <Image Source="{Binding Converter={StaticResource ImagePathConverter}, XPath=@Image}" Width="{Binding ElementName=detailSlider,Path=Value}" Margin="5" MouseLeftButtonUp="OnItemClick"/>
-                </DataTemplate>
-              </Setter.Value>
-            </Setter>
             <Style.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Panel.ZIndex" Value="2000" />
@@ -540,5 +538,19 @@
       <TextBlock Name="textDetail" Margin="0,0,160,16" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="DETAIL LEVEL: 100%" Visibility="Collapsed"/>
       <Slider Name="detailSlider" Margin="0,0,50,10" Template="{DynamicResource DetailSliderTemplate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Minimum="50" Maximum="150" Value="150" Visibility="Collapsed"/>
     </Grid>
+  </Border>
+  <Border Canvas.Left="0" Canvas.Top="0" Width="610" Padding="6" Background="#EFFFFFFF" CornerRadius="5">
+    <StackPanel>
+      <DockPanel>
+        <Button Name="loadOlderButton" Content="Load older (8)" Width="120" Margin="4,0,0,0" Click="OnLoadOlderWallpapers" DockPanel.Dock="Right" />
+        <Button Name="refreshButton" Content="Refresh Bing wallpapers" Width="175" Margin="4,0,0,0" Click="OnRefreshWallpapers" DockPanel.Dock="Right" />
+        <TextBlock Text="Bing Daily Wallpapers" FontWeight="Bold" VerticalAlignment="Center" />
+      </DockPanel>
+      <TextBlock Name="wallpaperStatus" Margin="2,3,0,0" Foreground="#FF333333" Text="Bundled sample photos" />
+      <DockPanel Name="photoDetails" Visibility="Collapsed" Margin="2,3,0,0">
+        <Button Name="openBingPage" Content="Open Bing details" Click="OnOpenBingPage" DockPanel.Dock="Right" />
+        <TextBlock Name="wallpaperAttribution" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+      </DockPanel>
+    </StackPanel>
   </Border>
 </Canvas>
